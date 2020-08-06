@@ -14,8 +14,14 @@ To use the dataset generator please install:
 - [x] ffmpeg 
 
 ## Setup
--git clone https://github.com/ortslil64/SPO-dataset
--pip install -e SPO-dataset
+Clone the repository:
+```bash
+git clone https://github.com/ortslil64/SPO-dataset
+```
+Use pip to install:
+```bash
+pip install -e SPO-dataset
+```
 
 ## Dataset
 Crate a dataset for sequantial images with multiple objects. 
