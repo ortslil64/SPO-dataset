@@ -16,6 +16,10 @@ This dataset can benchmark the performance of sequantial estimators (Bayesian fi
 
 ![demo](https://github.com/ortslil64/SPO-dataset/blob/master/images/illusion_example.png?raw=true "Multiple objects with different sizes and different types of observations")
 
+## Usage
+A demo dataset can be found in the demo/dataset folder. 
+To generate a larger dataset, please refer to demo/dataset_generator.py
+
 ## Requairments
 To use the dataset generator please install:
 - [x] python 3.x
