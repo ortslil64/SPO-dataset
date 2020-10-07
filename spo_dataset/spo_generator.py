@@ -141,6 +141,51 @@ def get_dataset_from_video(images, n = 500, n_circles = 2, radius = None):
     z = np.array(z)
     return x,z
 
+def get_dataset_rotating_objects(n = 500,var = 255, image_shape = (128,128)):
+    a = [50,15]
+    b = [25,25]
+    c = [[50,20],[100,100]]
+    theta = [0.5, 1.2]
+    v = [[1,2],[-2,-1]]
+    omega = [0.05, -0.05]
+    x = []
+    z = []
+    for ii in tqdm(range(n)):
+        image = np.zeros(image_shape)
+        for jj in range(2):
+            pts = [[int(c[jj][0] + 0.5*a[jj]*np.cos(theta[jj]) - 0.5*b[jj]*np.sin(theta[jj])), int( c[jj][1] + 0.5*a[jj]*np.sin(theta[jj]) + 0.5*b[jj]*np.cos(theta[jj]))],
+                   [int(c[jj][0] - 0.5*a[jj]*np.cos(theta[jj]) - 0.5*b[jj]*np.sin(theta[jj])),int( c[jj][1] - 0.5*a[jj]*np.sin(theta[jj]) + 0.5*b[jj]*np.cos(theta[jj]))],
+                   [int(c[jj][0] - 0.5*a[jj]*np.cos(theta[jj]) + 0.5*b[jj]*np.sin(theta[jj])),int( c[jj][1] - 0.5*a[jj]*np.sin(theta[jj]) - 0.5*b[jj]*np.cos(theta[jj]))],
+                   [int(c[jj][0] + 0.5*a[jj]*np.cos(theta[jj]) + 0.5*b[jj]*np.sin(theta[jj])),int( c[jj][1] + 0.5*a[jj]*np.sin(theta[jj]) - 0.5*b[jj]*np.cos(theta[jj]))]]
+            pts = np.array(pts)
+            pts = pts.reshape((-1, 1, 2)) 
+            color = (255) 
+  
+            # Line thickness of 8 px 
+            thickness = 2
+            isClosed = True
+            image = cv2.polylines(image, [pts],  
+                      isClosed, color,  
+                      thickness) 
+            image = cv2.fillPoly(image, [pts], 255)
+            c[jj][0] = c[jj][0] + v[jj][0]
+            c[jj][1] = c[jj][1] + v[jj][1]
+            if c[jj][0] > image_shape[0] or c[jj][0] < 0:
+                v[jj][0] = -v[jj][0]
+            if c[jj][1] > image_shape[1] or c[jj][1] < 0:
+                v[jj][1] = -v[jj][1]
+            theta[jj] = theta[jj] + omega[jj]
+            noise = np.random.normal(0, var, image_shape)
+            noise[noise < 0] = 0
+            noise[noise > 255] = 255
+            noisy_image = 0.5*image + noise
+            noisy_image[noisy_image > 255] = 255
+
+        x.append(image/255)
+        z.append(noisy_image/255)
+    return x, z
+            
+            
 def generate_image(r = 0.1):
     image = np.zeros((128,128))
     for ii in range(128):
