@@ -1,4 +1,5 @@
 # SPO-dataset
+By Or Tslil
 Sequential Partially Observable dataset for deep temporal images filtering.
 This package provide a dataset generator and examples for a sequantial images and their noisy observations. It provides a filtering challenge to filter out nnoisy observations and even partially observable states (see images below). 
 
